@@ -79,7 +79,7 @@ if (isset($token))
 							console.log('getDriverfiles',response);
 							var list = '<ul>'
 							for (var i = 0; i < response.items.length; i++) {
-								list +="<li style=\"padding-bottom: 15px;\"> <img style=\"padding-right: 15px;\" src="+response.items[i].iconLink+"></img> <a target=\"_blank\" style=\"padding: 12px;display: contents;font-size: 20px;\" href="+response.items[i].embedLink+">"+response.items[i].title+"</a></li>";
+								list +="<li class=\"driveFileList\"> <img class=\"driveFileImg\" src="+response.items[i].iconLink+"></img> <a target=\"_blank\" class=\"driveLink\" href="+response.items[i].embedLink+">"+response.items[i].title+"</a></li>";
 							}
 							list += '</ul>';
 							$("#fileList").append(list);
