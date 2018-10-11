@@ -77,8 +77,13 @@ if (isset($token))
 					header : 'Content-Type: application/x-www-form-urlencoded',
 					success: function(response){
 							console.log('getDriverfiles',response);
-							var list = response.items;
+							var list = '<ul>'
+							for (var i = 0; i < response.items.length; i++) {
+								list +="<li style=\"padding-bottom: 15px;\"> <img style=\"padding-right: 15px;\" src="+response.items[i].iconLink+"></img> <a target=\"_blank\" style=\"padding: 12px;display: contents;font-size: 20px;\" href="+response.items[i].embedLink+">"+response.items[i].title+"</a></li>";
+							}
+							list += '</ul>';
 							$("#fileList").append(list);
+							document.getElementById("files").innerHTML = list;
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 							var errorMsg = 'Ajax request failed: ' + xhr.responseText;
@@ -86,6 +91,26 @@ if (isset($token))
 						  }
 				});
 			}
+// 			function uploadFile(){
+// 				$client = getClient();
+// 				$service = new Google_Service_Drive($client);
+
+// 				$optParams = array(
+// 				'pageSize' => 10,
+// 				'fields' => 'nextPageToken, files(id, name)'
+// 				);
+// 				$results = $service->files->listFiles($optParams);
+
+// 				if (count($results->getFiles()) == 0) {
+// 					print "No files found.\n";
+// 				} else {
+// 					print "Files:\n";
+// 					foreach ($results->getFiles() as $file) {
+// 						printf("%s (%s)\n", $file->getName(), $file->getId());
+// 					}
+// }
+// 			}
+			
         </script>
 <?php } ?>
 
@@ -111,22 +136,31 @@ if (isset($token))
             </div>
         </div>
 	</div>
+	<div>
+	<div class="row" >
+		<div class="card hovercard">
+			<form action="https://accounts.google.com/o/oauth2/v2/auth?client_id=610790991984-vikl8floe280nheoau5e016r1le7l78m.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/upload/drive/v2/"+exampleFormControlFile1+"&redirect_uri=http://localhost/googleapis/drive/process.php&access_type=offline" method="post">
+				<div class="form-group">
+						<div class="title">
+						<h2 style="color: darkgray;">Upload  files</h2>
+						</div>
+					<input  style="padding: 16px;width: fit-content;font-size: 20px;color: #428bca;"type="file" class="form-control-file" id="exampleFormControlFile1">
+					<button type="submit" class="btn-primary btn-lg">Upload File</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
 		<div class="row" >
 				<div>
             <div class="card hovercard">
                 <div class="info">
                     <div class="title">
-						<h3>Google drive files</h3>
+						<h2 style="color: darkgray;">Drive Files</h2>
                     </div>
-										
-					<ul id="fileList">
-					<?php foreach($array as $key=>$value){ ?>
-						<li>
-							<a><?php echo $value.title; ?></a>
-						</li>
-						<?php } ?>
-					</ul>
+					<div id="files">
+						
+                    </div>				
 
                 </div>
                 <div class="bottom">
